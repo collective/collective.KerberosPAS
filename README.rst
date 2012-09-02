@@ -9,8 +9,10 @@ Most of the other available products use web server provided kerberos authentica
 
 This product does not check whether the authenticated users exist in ZODB. Correct plugin order will cause authenticating non-existing users fail. For performance reasons the extraction is cached using Zope session, otherwise negotiation would happen at every page load. 
 
-Prerequisities
-==============
+This product includes plugin-registry genericsetup profile which automatically enables the product. Backing up your plugin-setup.xml before installation is recommended.
+
+Configuring Kerberos
+====================
 
 Below are gathered some basic pointers for those who are not familiar with setting up Kerberos and GSS-API authentication.
 
