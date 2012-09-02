@@ -3,40 +3,40 @@ Introduction
 
 This product implements kerberos/GSS-API (see RFC 4178) Pluggable Authentication Service plugin for Plone.
 
-Kerberos is the preferred SSO method for intranets because it is extremely secure, robust, and performs well. It also improves the usability for end-users because they don't have to use their username/password combination after logging into workstations. Kerberos is also supported on virtually any platform (Windows, MacOS X, Linux, BSDs, etc) and by most of the web browsers (Chrome, Internet Explorer, Firefox) - and it interoperates between platforms quite well.
+Kerberos is the preferred SSO method for intranet setups because it is secure, robust, and it performs well. It also offers improved usability (most of the logins are transparent to users) and robust interoperatibility between different platforms (Windows, MacOS X, Linux, BSDs, etc) and different browsers (Chrome, Internet Explorer, Firefox).
 
-Most of the other available products use web server provided kerberos authentication with the combination of REMOTE_USER environment value. As the interaction between front-end web server and the application server is essentially non-protected that is not generally a good idea. Also, that limits the web server products that can be used to those that have a kerberos authentication module available. This module implements the GSS-API authentication on the application server.
+KerberosPAS implements the kerberos authentication at application server by using *kerberos* and the kerberos 5 libraries (most commonly either MIT or Heimdal). The other available products most commonly offload that task to a web server and use a REMOTE_USER environment variable to communicate the authenticated user. Downsides to that approach are the insecurity between web and application servers and reducing the possible web server products to choose from.
 
-This product does not check whether the authenticated users exist in ZODB. Correct plugin order will cause authenticating non-existing users fail. For performance reasons the extraction is cached using Zope session, otherwise negotiation would happen at every page load. 
+This product does not check whether the authenticated users exist in ZODB. Correct plugin order will cause authenticating non-existing users fail. A plugin-registry genericsetup profile is included, and will attempt to provide a starting point for setting the PAS plugin up. Your mileage may vary.
 
-This product includes plugin-registry genericsetup profile which automatically enables the product. Backing up your plugin-setup.xml before installation is recommended.
+For performance reasons the extraction is cached using Zope session, otherwise negotiation would happen at every page load.
 
 Configuring Kerberos
 ====================
 
-Below are gathered some basic pointers for those who are not familiar with setting up Kerberos and GSS-API authentication.
+Below are gathered some basic notes for those who are not familiar with setting up Kerberos and GSS-API authentication.
 
-A working kerberos realm should be already set up. Your Plone server and the workstations should be joined to the realm. For resources on accomplishing that please see for instance:
+A working kerberos realm should be set up. Your Plone server and the workstations should be joined to the realm. For resources on accomplishing that please see for instance:
 - https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Enterprise_Linux/6/html/Managing_Smart_Cards/Configuring_a_Kerberos_5_Server.html
 - http://www.centos.org/docs/5/html/Deployment_Guide-en-US/ch-kerberos.html
 - http://www.freebsd.org/doc/handbook/kerberos5.html
 - http://tldp.org/HOWTO/Kerberos-Infrastructure-HOWTO/
 
-Please take the requirement of having working DNS and using FQDNs *seriously* or you will at later phase run into problems.
+Please take the commonly stated requirement of having working DNS and using FQDNs **seriously** or you will at later phase run into problems.
 
 The Plone server will require krb5-libs and krb5-workstation packages.
 
-You will need a service principal for your Plone server. You create it like::
+You will need a service principal for your Plone server. It should have the form HTTP/fqdn@YOURREALM and you create it like::
 
  addprinc -randkey HTTP/plone.localdomain@LOCALDOMAIN
 
-After that you save it into the plone server's /etc/krb5.keytab by::
+After that you save it into your Plone server's /etc/krb5.keytab by::
 
  ktadd HTTP/plone.localdomain@LOCALDOMAIN
 
-After that you configure your browser. Internet Explorer requires that the site is in trusted sites list, and the browser has "Use integrated windows authentication" enabled. Firefox requires that you go to about:config and add your domain name to network.negotiate-auth.trusted-uris.
+After that you configure your browser for the GSS-API authentication. Internet Explorer requires that the site is in trusted sites list, and the browser has "Use integrated windows authentication" enabled. Firefox requires that you go to about:config and add your domain name to network.negotiate-auth.trusted-uris. You can either use fqdn or the dnsdomainname, I used ''.localdomain'' for development.
 
-**Plone will run the process as a separate user that has minimal access rights. You will have to add this user, typically called "plone" read access rights to the file /etc/krb5.keytab**
+**Plone will run the process as a separate user that has minimal access rights. You will have to add this user, typically called ''plone'', read access rights to the file /etc/krb5.keytab**
 
 Debugging
 =========
