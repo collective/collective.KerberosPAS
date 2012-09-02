@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This product implements kerberos/GSS-API (see RFC 4178) Pluggable Authentication Service plugin for Plone.
+This product implements kerberos/GSS-API (see RFC4178_) Pluggable Authentication Service plugin for Plone.
 
 Kerberos is the preferred SSO method for intranet setups because it is secure, robust, and it performs well. It also offers improved usability (most of the logins are transparent to users) and robust interoperatibility between different platforms (Windows, MacOS X, Linux, BSDs, etc) and different browsers (Chrome, Internet Explorer, Firefox).
 
@@ -12,6 +12,7 @@ This product does not check whether the authenticated users exist in ZODB. Corre
 For performance reasons the extraction is cached using Zope session, otherwise negotiation would happen at every page load.
 
 .. _kerberos: http://pypi.python.org/pypi/kerberos/
+.. _RFC4178: http://tools.ietf.org/html/rfc4178
 
 Configuring Kerberos
 ====================
@@ -39,7 +40,7 @@ After that you save it into your Plone server's /etc/krb5.keytab by::
 
 After that you configure your browser for the GSS-API authentication. Internet Explorer requires that the site is in trusted sites list, and the browser has "Use integrated windows authentication" enabled. Firefox requires that you go to about:config and add your domain name to network.negotiate-auth.trusted-uris. You can either use fqdn or the dnsdomainname, I used ``.localdomain`` for development.
 
-**Plone will run the process as a separate user that has minimal access rights. You will have to add this user, typically called ``plone``, read access rights to the file /etc/krb5.keytab**
+**Plone will run the process as a separate user that has minimal access rights. You will have to add this user, typically called** ``plone`` **, read access rights to the file /etc/krb5.keytab**
 
 Debugging
 =========
