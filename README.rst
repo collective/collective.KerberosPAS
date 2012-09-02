@@ -5,11 +5,13 @@ This product implements kerberos/GSS-API (see RFC 4178) Pluggable Authentication
 
 Kerberos is the preferred SSO method for intranet setups because it is secure, robust, and it performs well. It also offers improved usability (most of the logins are transparent to users) and robust interoperatibility between different platforms (Windows, MacOS X, Linux, BSDs, etc) and different browsers (Chrome, Internet Explorer, Firefox).
 
-KerberosPAS implements the kerberos authentication at application server by using *kerberos* and the kerberos 5 libraries (most commonly either MIT or Heimdal). The other available products most commonly offload that task to a web server and use a REMOTE_USER environment variable to communicate the authenticated user. Downsides to that approach are the insecurity between web and application servers and reducing the possible web server products to choose from.
+KerberosPAS implements the kerberos authentication at application server by using kerberos_ and the kerberos 5 libraries (most commonly either MIT or Heimdal). The other available products most commonly offload that task to a web server and use a REMOTE_USER environment variable to communicate the authenticated user. Downsides to that approach are the insecurity between web and application servers and reducing the possible web server products to choose from.
 
 This product does not check whether the authenticated users exist in ZODB. Correct plugin order will cause authenticating non-existing users fail. A plugin-registry genericsetup profile is included, and will attempt to provide a starting point for setting the PAS plugin up. Your mileage may vary.
 
 For performance reasons the extraction is cached using Zope session, otherwise negotiation would happen at every page load.
+
+.. _kerberos: http://pypi.python.org/pypi/kerberos/
 
 Configuring Kerberos
 ====================
@@ -17,6 +19,7 @@ Configuring Kerberos
 Below are gathered some basic notes for those who are not familiar with setting up Kerberos and GSS-API authentication.
 
 A working kerberos realm should be set up. Your Plone server and the workstations should be joined to the realm. For resources on accomplishing that please see for instance:
+
 - https://access.redhat.com/knowledge/docs/en-US/Red_Hat_Enterprise_Linux/6/html/Managing_Smart_Cards/Configuring_a_Kerberos_5_Server.html
 - http://www.centos.org/docs/5/html/Deployment_Guide-en-US/ch-kerberos.html
 - http://www.freebsd.org/doc/handbook/kerberos5.html
