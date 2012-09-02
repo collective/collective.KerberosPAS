@@ -5,7 +5,7 @@ version = '1.0'
 
 setup(name='collective.KerberosPAS',
       version=version,
-      description="Kerberos PAS",
+      description="Kerberos/GSS-API Pluggable Authentication Service plugin for Plone",
       long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
